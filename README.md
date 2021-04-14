@@ -1,1 +1,0 @@
-This directory contains all my little projects on the road to become a AI/ML Engineer
