@@ -212,10 +212,10 @@ if __name__ == '__main__':
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
     model.fit(X_train_tf, y_train_tf, epochs=100, verbose=2, validation_split=0.2)
     tf_score = 0'''
-    for i in range(y_test.size):
+    '''for i in range(y_test.size):
         test_X = np.reshape(X_test[i], (1, 8))
         print(test_X.shape)
         #pred = model.predict(X_test[i])
         #print(pred)
-        break
+        break'''
 
