@@ -32,3 +32,7 @@ def preprocess(labels=LABELS, data_dir=DEFAULT_DATA_DIR, result_dir=DEFAULT_RESU
                 counter += 1
         except FileNotFoundError as e:
             pass
+
+
+if __name__ == '__main__':
+    preprocess()
