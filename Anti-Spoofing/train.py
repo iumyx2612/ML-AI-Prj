@@ -7,15 +7,16 @@ from sklearn.preprocessing import LabelEncoder
 import tensorflow as tf
 from tensorflow.keras.callbacks import TensorBoard
 import datetime
+import pickle
 
-data = []
+datas = []
 labels = []
 image_size = None
 le = LabelEncoder()
 
 
 def load_data(result_dir, _image_size: int):
-    global data, labels
+    global datas, labels
     assert _image_size, "Please specify image size"
     global image_size
     image_size = _image_size
@@ -26,17 +27,21 @@ def load_data(result_dir, _image_size: int):
                 image = cv2.imread(os.path.join(label_path, file))
                 assert image is not None
                 image = cv2.resize(image, (image_size, image_size))
-                data.append(image)
+                image = np.reshape(image, (1, ) + image.shape)
+                datas.append(image)
                 labels.append(folder)
             except AssertionError as e:
                 print("%s is not an image" %file)
-    data = np.array(data, dtype=np.float)/255.0
+    datas = np.array(datas, dtype=np.float)
     labels = le.fit_transform(labels)
     labels = tf.keras.utils.to_categorical(labels)
+    f = open("LabelEncoders", 'wb')
+    f.write(pickle.dumps(le))
+    f.close()
 
 
 def train(epochs: int, evaluate=False):
-    (X_train, X_test, y_train, y_test) = train_test_split(data, labels, test_size=0.2)
+    (X_train, X_test, y_train, y_test) = train_test_split(datas, labels, test_size=0.1)
     model = LivenessNet.build(image_size, image_size, 3, len(le.classes_))
     model.compile(optimizer=tf.keras.optimizers.Adam(), loss=tf.keras.losses.binary_crossentropy, metrics=['accuracy'])
     model_timer = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
