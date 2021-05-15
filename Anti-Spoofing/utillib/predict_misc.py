@@ -1,23 +1,45 @@
-import tensorflow as tf
-from tensorflow.keras.models import load_model, Model
+from tensorflow.keras.models import Model
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-import face_detection
+from utillib import face_detection
+from utillib.utils import load_images_with_labels
 import pickle
-import sys, os
+import sys
 
-le = pickle.loads(open("LabelEncoders", 'rb').read())
+le = pickle.loads(open("../LabelEncoders", 'rb').read())
 classifier = face_detection.classifier
 
 
-def predict_image(image_path, size, model: Model):
+def map_output_prediction(predictions: np.ndarray):
+    preds = []
+    if predictions.ndim == 1:
+        if predictions < 0.5:
+            return le.classes_[0]
+        else:
+            return le.classes_[1]
+    elif predictions.ndim == 2:
+        for prediction in predictions:
+            if prediction < 0.5:
+                preds.append(le.classes_[0])
+            else:
+                preds.append(le.classes_[1])
+    return preds
+
+
+def predict_batch_image(dir, model: Model, size=64, batch_size=32):
+    datas, labels = load_images_with_labels(dir, size)
+    preds = model.predict(datas)
+    map_preds = map_output_prediction(preds)
+    return map_preds, labels
+
+
+def predict_single_image(image_path, model: Model, size=64):
     image = cv2.imread(image_path)
-    image = cv2.resize(image, (size, size))
-    input = np.reshape(image, (1, ) + image.shape)
+    fake_img = cv2.resize(image, (size, size))
+    input = np.reshape(fake_img, (1, ) + fake_img.shape)
     predictions = model.predict(input)
     print(predictions)
-    prediction = predictions[0]
+    prediction = float(predictions[0])
     if prediction < 0.5:
         label = le.classes_[0]
     else:
@@ -25,11 +47,13 @@ def predict_image(image_path, size, model: Model):
     bboxes = face_detection.face_detect(classifier, image, 1.1, 10)
     for box in bboxes:
         x, y, w, h = box
+        print(x, y, w, h)
         label = "{}: {:.4f}".format(label, prediction)
         cv2.putText(image, label, (x, y - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         cv2.rectangle(image, (x, y), (x+w, y+h),
                       (0, 0, 255), 2)
+    cv2.namedWindow("Image", cv2.WINDOW_FREERATIO)
     cv2.imshow("Image", image)
     cv2.waitKey()
 
@@ -66,7 +90,3 @@ def webcam(size, model: Model):
     cv2.destroyAllWindows()
     cap.release()
 
-
-if __name__ == '__main__':
-    model = load_model("Saved Models/LivenessNet 20210507-002857")
-    webcam(64, model)
