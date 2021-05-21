@@ -51,9 +51,3 @@ def train(epochs: int):
     early_stopping = EarlyStopping(monitor='val_loss', patience=6)
     model.fit(X_train, y_train, epochs=epochs, verbose=2, validation_split=0.2, callbacks=[tensorboard_callback, early_stopping])
     model.save(os.path.join("Saved Models", "LivenessNet " + model_timer))
-
-
-if __name__ == '__main__':
-    load_data("../Data", _image_size=64)
-    train(epochs=50)
-

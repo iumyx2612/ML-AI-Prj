@@ -115,9 +115,3 @@ def unzip_from_url(data_dir, dataset_url):
     zip_path = open_url(dataset_url, cache_dir='.stylegan2-cache', return_path=True)
     with zipfile.ZipFile(zip_path, 'r') as f:
         f.extractall(data_dir)
-
-
-# get class by string
-# -----------------------------------------------------------
-def get_atr_by_name(name: str):
-    return getattr()

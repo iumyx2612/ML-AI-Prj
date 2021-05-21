@@ -89,4 +89,3 @@ def webcam(size, model: Model):
             break
     cv2.destroyAllWindows()
     cap.release()
-
