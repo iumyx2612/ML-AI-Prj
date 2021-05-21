@@ -9,10 +9,3 @@ predefined_net = [
     "VGG19",
     "Inception_v3"
 ]
-
-
-
-
-
-
-
