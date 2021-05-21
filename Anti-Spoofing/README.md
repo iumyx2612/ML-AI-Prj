@@ -29,3 +29,4 @@ This is a binary classification problem so I'm currently using these 2 metrics
 - [x] Train model with aprx 20k images
 - [x] Metrics 
 - [ ] Compare model with other models 
+- [ ] Command line parser
