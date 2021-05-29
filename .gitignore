@@ -4,3 +4,8 @@
 /Anti-Spoofing/Test/
 *.zip
 *.rar
+/VietnameseHandWritten/Data/
+/VietnameseHandWritten/Results/
+/VietnameseHandWritten/TensorboardLogs/
+/VietnameseHandWritten/Test/
+/VietnameseHandWritte/SavedModel/
