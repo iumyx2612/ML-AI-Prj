@@ -1,5 +1,5 @@
 import cv2
-from utillib import face_detection
+import face_detection
 import sys, os
 
 classifier = face_detection.classifier
