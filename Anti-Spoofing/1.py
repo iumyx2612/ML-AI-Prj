@@ -10,7 +10,7 @@ from utillib.utils import load_images_with_labels
 import numpy as np
 
 
-'''input_tensor = Input(shape=(64, 64, 3))
+input_tensor = Input(shape=(64, 64, 3))
 Resnet = ResNet50(input_tensor=input_tensor, weights="imagenet", include_top=False, pooling='max')
 VGG = VGG16(weights="imagenet", include_top=False, pooling='max')
 #Inception = InceptionV3(weights="imagenet", include_top=False, pooling='max')
@@ -29,10 +29,4 @@ def warmup(base_model: Model, data_dir, img_size=64, epochs=5):
     model_timer = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     model.save(os.path.join("../Saved Models", "%s " %str(base_model) + model_timer))
 
-def fine_tune():
-    pass'''
 
-if __name__ == '__main__':
-    A = np.random.randn(4, 3)
-    B = np.sum(A, axis=1, keepdims=True)
-    print(B.shape)

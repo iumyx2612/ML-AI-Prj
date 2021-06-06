@@ -6,7 +6,7 @@ from utillib.utils import load_images_with_labels
 import pickle
 import sys
 
-le = pickle.loads(open("../LabelEncoders", 'rb').read())
+le = pickle.loads(open("LabelEncoders", 'rb').read())
 classifier = face_detection.classifier
 
 
