@@ -2,5 +2,7 @@
 /Anti-Spoofing/crop/
 /Anti-Spoofing/Raw Data/
 /Anti-Spoofing/Test/
+/Anti-Spoofing/TensorboardLogs/
+/Anti-Spoofing/Saved Models
 *.zip
 *.rar
