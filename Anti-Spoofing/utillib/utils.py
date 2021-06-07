@@ -8,6 +8,7 @@ import pickle
 import requests
 import re
 import html
+from tqdm import tqdm
 
 
 le = LabelEncoder()
@@ -21,7 +22,7 @@ def load_images_with_labels(dir, size=64):
     for label in os.listdir(dir):
         path = os.path.join(dir, label)
         if os.path.isdir(path):
-            for file in os.listdir(path):
+            for file in tqdm(os.listdir(path)):
                 try:
                     image_path = os.path.join(path, file)
                     image = cv2.imread(image_path)

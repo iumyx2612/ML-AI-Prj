@@ -8,6 +8,7 @@ import tensorflow as tf
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
 import datetime
 import pickle
+from tqdm import tqdm
 
 image_size = None
 le = LabelEncoder()
@@ -22,7 +23,7 @@ def load_data(result_dir, _image_size: int):
     for folder in os.listdir(result_dir):
         label_path = os.path.join(result_dir, folder)
         if os.path.isdir(label_path):
-            for file in os.listdir(label_path):
+            for file in tqdm(os.listdir(label_path)):
                 try:
                     image = cv2.imread(os.path.join(label_path, file))
                     assert image is not None
