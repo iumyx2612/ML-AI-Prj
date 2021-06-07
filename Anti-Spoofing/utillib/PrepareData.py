@@ -1,5 +1,5 @@
 import cv2
-import face_detection
+from utillib import face_detection
 import sys, os
 
 classifier = face_detection.classifier
@@ -33,4 +33,4 @@ def main(data_dir, *args, _result_dir="Result", type="Real", extension=".jpg"):
 
 
 if __name__ == '__main__':
-    main("TestData", 1.1, 10, _result_dir="Data", type="Spoof")
+    main("TestData", 1.1, 10, _result_dir="../Data", type="Spoof")
