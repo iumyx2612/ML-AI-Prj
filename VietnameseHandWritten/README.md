@@ -30,7 +30,7 @@ Here are some of the predictions
 But there's still overfitting issue when predicting images not 
 similar to ones in the dataset, or images that go through our pre-process
 steps and don't look so good after that  
-![Badpred](imgs/badpred.png)
+![Badpred](imgs/badpred.png)  
 This is the final image after pre-processing, goes into the model
 for prediction  
 ![Badinput](imgs/inputbad.png)  
