@@ -1,5 +1,4 @@
 from MTDMTnet import MTDMTnet
-from preprocess import DEFAULT_IMG_SIZE
 import cv2
 import tensorflow as tf
 from tensorflow.keras.callbacks import TensorBoard
@@ -12,12 +11,9 @@ import numpy as np
 import os, sys
 import datetime
 import pickle
+from tqdm import tqdm
 
-img_size = DEFAULT_IMG_SIZE
-X_train = np.array([])
-X_test = np.array([])
-y_train = np.array([])
-y_test = np.array([])
+img_size = 128
 
 SAVED_MODEL_FOLDER = "SavedModel"
 
@@ -31,7 +27,7 @@ def load_in_data(data_dir):
     labels = []
     for label in os.listdir(data_dir):
         label_path = os.path.join(data_dir, label)
-        for file in os.listdir(label_path):
+        for file in tqdm(os.listdir(label_path)):
             image_path = os.path.join(label_path, file)
             try:
                 stream = open(image_path, 'rb')
@@ -53,15 +49,14 @@ def load_in_data(data_dir):
     return datas, labels
 
 
-def train(data_dir, validation_split: float, epochs=50,  batch_size = 64, tensor_board_log_dir=None, _evaluate=False):
-    global X_train, X_test, y_train, y_test
+def train(data_dir, epochs=50,  batch_size = 64, tensor_board_log_dir="TensorboardLogs", _evaluate=False):
     global SAVED_MODEL_FOLDER
     datas, labels = load_in_data(data_dir)
     (X_train, X_test, y_train, y_test) = train_test_split(datas, labels, test_size=0.2)
     model = MTDMTnet.build(img_size, img_size, len(le.classes_))
     model.compile(optimizer=tf.keras.optimizers.Adam(),
                   loss=tf.keras.losses.CategoricalCrossentropy(), metrics=['accuracy'])
-    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5)
     model_timer = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     if tensor_board_log_dir is not None and type(tensor_board_log_dir) == str:
         log_dir = os.path.join(tensor_board_log_dir, "MTDMTnet " + model_timer)
@@ -69,6 +64,7 @@ def train(data_dir, validation_split: float, epochs=50,  batch_size = 64, tensor
         history = model.fit(X_train, y_train,
                             epochs=epochs, verbose=2,
                             validation_split=0.2,
+                            batch_size=batch_size,
                             callbacks=[tensor_board_callback, early_stopping])
     else:
         history = model.fit(X_train, y_train,
@@ -76,3 +72,7 @@ def train(data_dir, validation_split: float, epochs=50,  batch_size = 64, tensor
                             validation_split=0.2,
                             callbacks=[early_stopping])
     model.save(os.path.join(SAVED_MODEL_FOLDER, "MTDMTnet " + model_timer))
+
+
+if __name__ == '__main__':
+    train("ProcessedData")

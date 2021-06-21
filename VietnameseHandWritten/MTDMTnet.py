@@ -17,9 +17,10 @@ class MTDMTnet:
         model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=2))
         model.add(tf.keras.layers.Dropout(0.25))
 
-        '''model.add(tf.keras.layers.Conv2D(32, (5, 5)))
+        model.add(tf.keras.layers.Conv2D(32, (5, 5)))
         model.add(tf.keras.layers.Activation(tf.keras.activations.relu))
-        model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=2))'''
+        model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=2))
+        model.add(tf.keras.layers.Dropout(0.25))
 
         model.add(tf.keras.layers.Flatten())
 
