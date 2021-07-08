@@ -4,5 +4,14 @@
 /Anti-Spoofing/Test/
 /Anti-Spoofing/TensorboardLogs/
 /Anti-Spoofing/Saved Models
+/Anti-Spoofing/1.py
 *.zip
 *.rar
+*.xlsx
+/VietnameseHandWritten/Data/
+/VietnameseHandWritten/ProcessedData/
+/VietnameseHandWritten/SavedModel/
+/VietnameseHandWritten/TensorboardLogs/
+/VietnameseHandWritten/Test
+/VietnameseHandWritten/LabelEncoders
+/VietnameseHandWritten/Final.py
