@@ -1,4 +1,4 @@
-from tensorflow.keras.models import Model
+from tensorflow.keras.models import Model, load_model
 import cv2
 import numpy as np
 from utillib import face_detection
@@ -6,7 +6,7 @@ from utillib.utils import load_images_with_labels
 import pickle
 import sys
 
-le = pickle.loads(open("LabelEncoders", 'rb').read())
+le = pickle.loads(open("../LabelEncoders", 'rb').read())
 classifier = face_detection.classifier
 
 
@@ -89,3 +89,8 @@ def webcam(size, model: Model):
             break
     cv2.destroyAllWindows()
     cap.release()
+
+
+if __name__ == '__main__':
+    model = load_model("../Saved Models/LivenessNet 20k input 64 20210703-001104")
+    webcam(64, model)

@@ -3,7 +3,7 @@ import numpy as np
 import os, sys
 
 
-classifier_path = os.path.join("Pre-trained", "haarcascade_frontalface_default.xml")
+classifier_path = os.path.join("../Pre-trained", "haarcascade_frontalface_default.xml")
 classifier = cv2.CascadeClassifier(classifier_path)
 
 
