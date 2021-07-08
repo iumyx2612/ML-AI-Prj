@@ -26,27 +26,24 @@ class metrics:
         self.ground_pos = self.true_pos + self.false_neg
         self.ground_neg = self.true_neg + self.false_pos
 
-    def report(self, name, result):
+    def report(self, name: str, result):
         print("%s evaluation: %s" %(name, result))
         print("----------Done Evaluation----------")
-
-class TPR(metrics):
-    def __init__(self):
-        super(TPR, self).__init__(name="TPR")
 
     def cal_tpr(self, model: Model, test_path="Test", size=64, batch_size=32):
         print("----------Starting evaluation----------")
         self.run_eval(model, test_path, size=size, batch_size=batch_size)
         tpr = self.true_pos / self.ground_pos
-        self.report(self.name, tpr)
-
-
-class FPR(metrics):
-    def __init__(self):
-        super(FPR, self).__init__(name="FPR")
+        self.report("TPR", tpr)
 
     def cal_fpr(self, model: Model, test_path="Test", size=64, batch_size=32):
         print("----------Starting evaluation----------")
         self.run_eval(model, test_path, size=size, batch_size=batch_size)
         fpr = self.false_pos / self.ground_neg
-        self.report(self.name, fpr)
+        self.report("FPR", fpr)
+
+    def cal_acc(self, model: Model, test_path="Test", size=64, batch_size=32):
+        print("----------Starting evaluation----------")
+        self.run_eval(model, test_path, size=size, batch_size=batch_size)
+        acc = (self.true_pos + self.true_neg) / (self.ground_pos + self.ground_neg)
+        self.report("Accuracy", acc)
